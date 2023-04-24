@@ -1,17 +1,11 @@
 <?php
 
-// Mengkoneksikan file connection.php ke list.php
 include('connection.php');
 
-// $query -> Variable untuk menyimpan return value mysqli_query
-// mysqli_query -> Mengeksekusi query SQL pada sebuah database MySQL menggunakan koneksi MySQLi.
-// Parameter 1 -> Mengambil variabel yang terkoneksi
-// Parameter 2 -> Query SQL syntax apa yang ingin dilakukan, misal menampilkan data tabel karyawan
-$query = mysqli_query($connect, "SELECT * FROM karyawan");
+$keyword = $_GET['keyword'];
 
-// mysqli_fetch_all -> Mengambil seluruh hasil query SQL dalam satu kali panggilan, dan menyimpannya dalam sebuah array multi-dimensi.
-// Parameter 1 -> Mengambil return value dari data yang diambil
-// Parameter 2 -> Konstanta yang sudah di define oleh PHP untuk mengembalikan array assosiatif
+// Tampilkan sesuai dengan keyword yang di inputkan
+$query = mysqli_query($connect, "SELECT * FROM karyawan WHERE nama LIKE '%$keyword%' OR alamat LIKE '%$keyword%' OR umur LIKE '%$keyword%' OR jenis_kelamin LIKE '%$keyword%' ");
 $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 ?>
@@ -31,7 +25,7 @@ $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
     <br><br>
 
     <form action="search.php" method="get">
-        <input type="text" name="keyword" placeholder="Cari...">
+        <input type="text" name="keyword" placeholder="Cari..." value="<?php echo $_GET['keyword'] ?>">
         <button type="submit">Cari</button>
     </form>
     <br>
